@@ -335,7 +335,7 @@ PianoRoll::PianoRoll() :
 	for (auto q : Quantizations) {
 		m_quantizeModel.addItem(QString("1/%1").arg(q));
 	}
-	m_quantizeModel.setValue( m_quantizeModel.findText( "1/16" ) );
+	m_quantizeModel.setValue( m_quantizeModel.findText( "1/192" ) );
 
 	connect( &m_quantizeModel, SIGNAL(dataChanged()),
 					this, SLOT(quantizeChanged()));
