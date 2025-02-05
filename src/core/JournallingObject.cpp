@@ -55,11 +55,11 @@ JournallingObject::~JournallingObject()
 
 
 
-void JournallingObject::addJournalCheckPoint()
+void JournallingObject::addJournalCheckPoint( int actionID )
 {
 	if( isJournalling() )
 	{
-		Engine::projectJournal()->addJournalCheckPoint( this );
+		Engine::projectJournal()->addJournalCheckPoint( this, actionID );
 	}
 }
 

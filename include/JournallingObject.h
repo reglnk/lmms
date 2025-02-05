@@ -58,7 +58,7 @@ public:
 		}
 	}
 
-	void addJournalCheckPoint();
+	void addJournalCheckPoint( int actionID = 0 );
 
 	QDomElement saveState( QDomDocument & _doc,
 									QDomElement & _parent ) override;

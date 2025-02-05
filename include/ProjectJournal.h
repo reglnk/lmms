@@ -31,6 +31,8 @@
 #include "lmms_basics.h"
 #include "DataFile.h"
 
+#include <chrono>
+
 
 namespace lmms
 {
@@ -54,7 +56,7 @@ public:
 	bool canUndo() const;
 	bool canRedo() const;
 
-	void addJournalCheckPoint( JournallingObject *jo );
+	void addJournalCheckPoint( JournallingObject *jo, int actionID = 0 );
 
 	bool isJournalling() const
 	{
@@ -104,13 +106,25 @@ private:
 
 	struct CheckPoint
 	{
+		using Clock = std::chrono::steady_clock;
+		using TimePoint = std::chrono::time_point<Clock>;
+
 		CheckPoint( jo_id_t initID = 0, const DataFile& initData = DataFile( DataFile::Type::JournalData ) ) :
 			joID( initID ),
-			data( initData )
+			data( initData ),
+			actID( 0 )
+		{
+		}
+		CheckPoint( jo_id_t initID, int actionID, TimePoint tm = TimePoint(), const DataFile& initData = DataFile( DataFile::Type::JournalData ) ) :
+			joID( initID ),
+			data( initData ),
+			actID( actionID )
 		{
 		}
 		jo_id_t joID;
 		DataFile data;
+		int actID;
+		TimePoint timepoint;
 	} ;
 	using CheckPointStack = QStack<CheckPoint>;
 
@@ -120,7 +134,6 @@ private:
 	CheckPointStack m_redoCheckPoints;
 
 	bool m_journalling;
-
 } ;
 
 

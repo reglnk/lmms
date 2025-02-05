@@ -115,9 +115,7 @@ bool ProjectJournal::canRedo() const
 	return !m_redoCheckPoints.isEmpty();
 }
 
-
-
-void ProjectJournal::addJournalCheckPoint( JournallingObject *jo )
+void ProjectJournal::addJournalCheckPoint( JournallingObject *jo, int actionID )
 {
 	if( isJournalling() )
 	{
@@ -126,7 +124,7 @@ void ProjectJournal::addJournalCheckPoint( JournallingObject *jo )
 		DataFile dataFile( DataFile::Type::JournalData );
 		jo->saveState( dataFile, dataFile.content() );
 
-		m_undoCheckPoints.push( CheckPoint( jo->id(), dataFile ) );
+		m_undoCheckPoints.push( CheckPoint( jo->id(), actionID, CheckPoint::Clock::now(), dataFile ) );
 		if( m_undoCheckPoints.size() > MAX_UNDO_STATES )
 		{
 			m_undoCheckPoints.remove( 0, m_undoCheckPoints.size() - MAX_UNDO_STATES );
